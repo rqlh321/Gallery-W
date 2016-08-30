@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -78,22 +79,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public View getView(final int i, View view, ViewGroup viewGroup) {
+                ViewHolder viewHolder;
+
                 if (view == null) {
+                    viewHolder = new ViewHolder();
                     view = inflater.inflate(R.layout.main_grid_view_item, viewGroup, false);
+                    view.setTag(viewHolder);
+                }else {
+                    viewHolder=(ViewHolder)view.getTag();
                 }
+
                 final boolean isVideoFile = isVideoFile(listUri.get(i));
-                ImageView playButton = (ImageView) view.findViewById(R.id.play_button);
+                viewHolder.playButton = (ImageView) view.findViewById(R.id.play_button);
                 if (isVideoFile) {
-                    playButton.setVisibility(View.VISIBLE);
+                    viewHolder.playButton.setVisibility(View.VISIBLE);
                 } else {
-                    playButton.setVisibility(View.GONE);
+                    viewHolder.playButton.setVisibility(View.GONE);
                 }
-                ImageView imageView = (ImageView) view.findViewById(R.id.item_image);
+
+                viewHolder.imageView = (ImageView) view.findViewById(R.id.item_image);
                 Glide.with(MainActivity.this)
                         .load(listUri.get(i))
                         .fitCenter()
-                        .into(imageView);
-                imageView.setOnClickListener(new View.OnClickListener() {
+                        .into(viewHolder.imageView);
+                viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MainActivity.this, ViewActivity.class);
@@ -102,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-                imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                viewHolder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         sdb.delete(DatabaseHelper.DATABASE_TABLE,
@@ -113,8 +122,9 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-                FrameLayout layout = (FrameLayout) view.findViewById(R.id.item_layout);
-                layout.setRotation(random.nextFloat() * 1000);
+                viewHolder.layout = (FrameLayout) view.findViewById(R.id.item_layout);
+                viewHolder.layout.setRotation(random.nextFloat() * 1000);
+
                 return view;
             }
 
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 return mimeType != null && mimeType.indexOf("video") == 0;
             }
         };
+
         gridView.setAdapter(adapter);
     }
 
@@ -165,5 +176,11 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         listUri = getFromDb();
         adapter.notifyDataSetChanged();
+    }
+
+    static class ViewHolder {
+        ImageView imageView;
+        ImageView playButton;
+        FrameLayout layout;
     }
 }
