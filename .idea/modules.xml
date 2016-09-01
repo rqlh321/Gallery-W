@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/media_select_&amp;_storage.iml" filepath="$PROJECT_DIR$/media_select_&amp;_storage.iml" />
       <module fileurl="file://$PROJECT_DIR$/media_select_and_storage.iml" filepath="$PROJECT_DIR$/media_select_and_storage.iml" />
     </modules>
   </component>
