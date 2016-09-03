@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage;
+package com.example.sic.media_select__storage.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.sic.media_select__storage.DatabaseHelper;
+import com.example.sic.media_select__storage.R;
+import com.example.sic.media_select__storage.ViewActivity;
 
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -24,9 +27,14 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
         this.context = context;
     }
 
+    public static boolean isVideoFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.indexOf("video") == 0;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_grid_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycle_view_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,8 +55,8 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ViewActivity.class);
-                intent.putExtra(SelectFileActivity.URI, list.get(position));
-                intent.putExtra(SelectFileActivity.IS_VIDEO, isVideoFile);
+                intent.putExtra(GridViewItemsPreviewAdapter.URI, list.get(position));
+                intent.putExtra(GridViewItemsPreviewAdapter.IS_VIDEO, isVideoFile);
                 context.startActivity(intent);
             }
         });
@@ -68,11 +76,6 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
     @Override
     public int getItemCount() {
         return list.size();
-    }
-
-    public boolean isVideoFile(String path) {
-        String mimeType = URLConnection.guessContentTypeFromName(path);
-        return mimeType != null && mimeType.indexOf("video") == 0;
     }
 
     public void refreshList(ArrayList<String> newList) {

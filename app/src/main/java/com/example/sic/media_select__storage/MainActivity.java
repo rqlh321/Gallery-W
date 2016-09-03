@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.sic.media_select__storage.Adapters.RecycleViewMainListAdapter;
+
 public class MainActivity extends AppCompatActivity {
     RecycleViewMainListAdapter adapter;
     DatabaseHelper dbHelper;

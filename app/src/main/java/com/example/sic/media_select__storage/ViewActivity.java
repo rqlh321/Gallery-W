@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.example.sic.media_select__storage.Adapters.GridViewItemsPreviewAdapter;
+
 public class ViewActivity extends AppCompatActivity {
 
     @Override
@@ -18,8 +20,8 @@ public class ViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.preview));
 
-        String uri = getIntent().getStringExtra(SelectFileActivity.URI);
-        boolean isVideoFile = getIntent().getBooleanExtra(SelectFileActivity.IS_VIDEO, false);
+        String uri = getIntent().getStringExtra(GridViewItemsPreviewAdapter.URI);
+        boolean isVideoFile = getIntent().getBooleanExtra(GridViewItemsPreviewAdapter.IS_VIDEO, false);
         if (isVideoFile) {
             VideoView videoView = (VideoView) findViewById(R.id.video);
             videoView.setVisibility(View.VISIBLE);
