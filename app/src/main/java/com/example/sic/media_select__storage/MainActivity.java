@@ -1,80 +1,47 @@
 package com.example.sic.media_select__storage;
 
-import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
-import com.example.sic.media_select__storage.Adapters.RecycleViewMainListAdapter;
+import com.example.sic.media_select__storage.Fragments.MyGalleryFragment;
 
 public class MainActivity extends AppCompatActivity {
-    RecycleViewMainListAdapter adapter;
-    DatabaseHelper dbHelper;
+    public static final int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 2909;
+    MyGalleryFragment myGalleryFragment = new MyGalleryFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHelper = new DatabaseHelper(MainActivity.this);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+        fragmentTransaction.add(R.id.container, myGalleryFragment);
+        fragmentTransaction.commit();
+    }
 
-        Button addButton = (Button) findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SelectFolderActivity.class);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkReadExternalPermission()) {
-                        startActivity(intent);
-                    } else {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2909);
-                    }
-                } else {
-                    startActivity(intent);
-                }
-            }
-        });
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.gallery_list);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new RecycleViewMainListAdapter(this);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 2909: {
+            case READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Permission", "Granted");
-                    Intent intent = new Intent(MainActivity.this, SelectFolderActivity.class);
-                    startActivity(intent);
+                    myGalleryFragment.startSelectFolderFragment();
                 } else {
                     Log.e("Permission", "Denied");
                 }
                 return;
             }
         }
-    }
-
-    private boolean checkReadExternalPermission() {
-        int res = this.checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-        return (res == PackageManager.PERMISSION_GRANTED);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.refreshList(dbHelper.getUriList());
     }
 }

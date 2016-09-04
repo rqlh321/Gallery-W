@@ -1,7 +1,10 @@
 package com.example.sic.media_select__storage.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +14,8 @@ import android.widget.Switch;
 
 import com.bumptech.glide.Glide;
 import com.example.sic.media_select__storage.DatabaseHelper;
+import com.example.sic.media_select__storage.Fragments.ViewFragment;
 import com.example.sic.media_select__storage.R;
-import com.example.sic.media_select__storage.ViewActivity;
 
 import java.util.ArrayList;
 
@@ -22,18 +25,18 @@ import java.util.ArrayList;
 public class GridViewItemsPreviewAdapter extends BaseAdapter {
     public static final String URI = "uri";
     public static final String IS_VIDEO = "isVideo";
+    FragmentActivity fragmentActivity;
     LayoutInflater inflater;
     ArrayList<String> listUri;
     boolean[] selectedItems;
-    Context context;
     DatabaseHelper dbHelper;
 
-    public GridViewItemsPreviewAdapter(Context context, ArrayList<String> listUri, boolean[] selectedItems) {
+    public GridViewItemsPreviewAdapter(FragmentActivity fragmentActivity, ArrayList<String> listUri, boolean[] selectedItems) {
         this.listUri = listUri;
         this.selectedItems = selectedItems;
-        this.context = context;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        dbHelper = new DatabaseHelper(context);
+        this.fragmentActivity = fragmentActivity;
+        inflater = (LayoutInflater) fragmentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        dbHelper = new DatabaseHelper(fragmentActivity);
     }
 
     @Override
@@ -53,7 +56,6 @@ public class GridViewItemsPreviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-
         final ViewHolder viewHolder;
         if (view == null) {
             view = inflater.inflate(R.layout.grid_view_item, viewGroup, false);
@@ -72,17 +74,28 @@ public class GridViewItemsPreviewAdapter extends BaseAdapter {
         } else {
             viewHolder.playButton.setVisibility(View.GONE);
         }
-        Glide.with(context)
+        Glide.with(fragmentActivity)
                 .load(listUri.get(i))
                 .fitCenter()
                 .into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ViewActivity.class);
+               /* Intent intent = new Intent(context, ViewActivity.class);
                 intent.putExtra(URI, listUri.get(i));
                 intent.putExtra(IS_VIDEO, isVideoFile);
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+                ViewFragment viewFragment = new ViewFragment();
+                FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+                Bundle bundle = new Bundle();
+                bundle.putString(URI, listUri.get(i));
+                bundle.putBoolean(IS_VIDEO, isVideoFile);
+                viewFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.container, viewFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         viewHolder.selector.setOnClickListener(new View.OnClickListener() {

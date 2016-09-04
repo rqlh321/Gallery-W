@@ -17,9 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectFolderActivity" />
-        <activity android:name=".SelectFileActivity" />
-        <activity android:name=".ViewActivity"></activity>
     </application>
 
 </manifest>

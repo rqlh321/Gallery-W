@@ -1,40 +1,54 @@
-package com.example.sic.media_select__storage;
+package com.example.sic.media_select__storage.Fragments;
 
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.sic.media_select__storage.Adapters.RecycleViewFolderListAdapter;
+import com.example.sic.media_select__storage.R;
 
 import java.util.ArrayList;
 
-public class SelectFolderActivity extends AppCompatActivity {
+/**
+ * Created by sic on 03.09.2016.
+ */
+public class SelectFolderFragment extends Fragment {
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_folder);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.select_folder));
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_select_folder, container, false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.select_folder);
+        setHasOptionsMenu(true);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.gallery_folders);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.gallery_folders);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        RecycleViewFolderListAdapter adapter = new RecycleViewFolderListAdapter(this);
+        RecycleViewFolderListAdapter adapter = new RecycleViewFolderListAdapter(getActivity());
         ArrayList<Album> list = getGalleryAlbums();
         adapter.refreshList(list);
         recyclerView.setAdapter(adapter);
+        return view;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        onBackPressed();
+        getActivity().onBackPressed();
         return super.onOptionsItemSelected(item);
     }
 
@@ -51,7 +65,7 @@ public class SelectFolderActivity extends AppCompatActivity {
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
         String sort = MediaStore.Files.FileColumns.DATE_ADDED + " DESC";
 
-        Cursor cursor = getContentResolver().query(queryUri, projection, selection, null, sort);
+        Cursor cursor = getContext().getContentResolver().query(queryUri, projection, selection, null, sort);
 
         ArrayList<String> ids = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -91,4 +105,5 @@ public class SelectFolderActivity extends AppCompatActivity {
             return coverUri;
         }
     }
+
 }

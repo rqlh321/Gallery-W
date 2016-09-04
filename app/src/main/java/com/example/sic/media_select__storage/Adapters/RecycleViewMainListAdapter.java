@@ -1,7 +1,9 @@
 package com.example.sic.media_select__storage.Adapters;
 
-import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.sic.media_select__storage.DatabaseHelper;
+import com.example.sic.media_select__storage.Fragments.ViewFragment;
 import com.example.sic.media_select__storage.R;
-import com.example.sic.media_select__storage.ViewActivity;
 
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -21,10 +23,10 @@ import java.util.Random;
 public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleViewMainListAdapter.ViewHolder> {
     Random random = new Random();
     ArrayList<String> list = new ArrayList<>();
-    Context context;
+    FragmentActivity fragmentActivity;
 
-    public RecycleViewMainListAdapter(Context context) {
-        this.context = context;
+    public RecycleViewMainListAdapter(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
     public static boolean isVideoFile(String path) {
@@ -34,7 +36,7 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_recycle_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_main_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -47,23 +49,31 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
             holder.playImage.setVisibility(View.GONE);
         }
 
-        Glide.with(context)
+        Glide.with(fragmentActivity)
                 .load(list.get(position))
                 .fitCenter()
                 .into(holder.itemImage);
         holder.itemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ViewActivity.class);
-                intent.putExtra(GridViewItemsPreviewAdapter.URI, list.get(position));
-                intent.putExtra(GridViewItemsPreviewAdapter.IS_VIDEO, isVideoFile);
-                context.startActivity(intent);
+                ViewFragment viewFragment = new ViewFragment();
+                FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+                Bundle bundle = new Bundle();
+                bundle.putString(GridViewItemsPreviewAdapter.URI, list.get(position));
+                bundle.putBoolean(GridViewItemsPreviewAdapter.IS_VIDEO, isVideoFile);
+                viewFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.container, viewFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
             }
         });
         holder.itemImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                DatabaseHelper dbHelper = new DatabaseHelper(context);
+                DatabaseHelper dbHelper = new DatabaseHelper(fragmentActivity);
                 dbHelper.deleteByUri(list.get(position));
                 list.remove(position);
                 notifyDataSetChanged();

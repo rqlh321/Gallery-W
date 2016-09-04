@@ -1,7 +1,9 @@
 package com.example.sic.media_select__storage.Adapters;
 
-import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,40 +12,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.sic.media_select__storage.Fragments.SelectFileFragment;
+import com.example.sic.media_select__storage.Fragments.SelectFolderFragment;
 import com.example.sic.media_select__storage.R;
-import com.example.sic.media_select__storage.SelectFileActivity;
-import com.example.sic.media_select__storage.SelectFolderActivity;
 
 import java.util.ArrayList;
 
 public class RecycleViewFolderListAdapter extends RecyclerView.Adapter<RecycleViewFolderListAdapter.ViewHolder> {
     static final public String FOLDER_ID = "folderId";
-    ArrayList<SelectFolderActivity.Album> list = new ArrayList<>();
-    Context context;
+    ArrayList<SelectFolderFragment.Album> list = new ArrayList<>();
+    FragmentActivity fragmentActivity;
 
-    public RecycleViewFolderListAdapter(Context context) {
-        this.context = context;
+    public RecycleViewFolderListAdapter(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.folder_preview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_folder_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.folderText.setText(list.get(position).getName());
-        Glide.with(context)
+        Glide.with(fragmentActivity)
                 .load(list.get(position).getCoverUri())
                 .fitCenter()
                 .into(holder.folderCover);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SelectFileActivity.class);
-                intent.putExtra(FOLDER_ID, list.get(position).getId());
-                context.startActivity(intent);
+                SelectFileFragment selectFileFragment = new SelectFileFragment();
+                FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
+                Bundle bundle = new Bundle();
+                bundle.putString(FOLDER_ID, list.get(position).getId());
+                selectFileFragment.setArguments(bundle);
+                fragmentTransaction.replace(R.id.container, selectFileFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -53,7 +62,7 @@ public class RecycleViewFolderListAdapter extends RecyclerView.Adapter<RecycleVi
         return list.size();
     }
 
-    public void refreshList(ArrayList<SelectFolderActivity.Album> newList) {
+    public void refreshList(ArrayList<SelectFolderFragment.Album> newList) {
         list = newList;
         notifyDataSetChanged();
     }
