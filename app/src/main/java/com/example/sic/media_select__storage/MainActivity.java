@@ -3,32 +3,27 @@ package com.example.sic.media_select__storage;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.sic.media_select__storage.Fragments.MyGalleryFragment;
+import com.example.sic.media_select__storage.Fragments.SelectFolderFragment;
 
 public class MainActivity extends AppCompatActivity {
     public static final int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 2909;
-    MyGalleryFragment myGalleryFragment = new MyGalleryFragment();
+    boolean permissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
-        fragmentTransaction.add(R.id.container, myGalleryFragment);
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
+        if (savedInstanceState == null || savedInstanceState.isEmpty()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .add(R.id.container, new MyGalleryFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -36,12 +31,26 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    myGalleryFragment.startSelectFolderFragment();
+                    Log.e("Permission", "Granted");
+                    permissionGranted = true;
                 } else {
                     Log.e("Permission", "Denied");
                 }
-                return;
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (permissionGranted) {
+            permissionGranted = false;
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .replace(R.id.container, new SelectFolderFragment())
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }

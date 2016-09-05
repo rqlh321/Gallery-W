@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/padding_for_item">
+    android:paddingBottom="@dimen/padding_for_item"
+    android:paddingRight="@dimen/padding_for_item"
+    android:paddingTop="@dimen/padding_for_item">
 
     <ImageView
         android:id="@+id/folder_preview_image"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/folder_text"
+        style="@style/FolderListItemTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/padding_for_item"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

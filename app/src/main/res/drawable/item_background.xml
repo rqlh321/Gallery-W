@@ -4,7 +4,7 @@
     android:padding="5dp"
     android:shape="rectangle">
     <corners android:radius="@dimen/item_conner_radius_area" />
-    <solid android:color="@android:color/white" />
+    <solid android:color="#4b919eff" />
     <stroke
         android:width="2dp"
         android:color="@android:color/background_dark"></stroke>

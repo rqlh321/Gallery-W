@@ -20,6 +20,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Random;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleViewMainListAdapter.ViewHolder> {
     Random random = new Random();
     ArrayList<String> list = new ArrayList<>();
@@ -51,7 +54,8 @@ public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleView
 
         Glide.with(fragmentActivity)
                 .load(list.get(position))
-                .fitCenter()
+                .override(480,256)
+                .animate(R.anim.image_open)
                 .into(holder.itemImage);
         holder.itemImage.setOnClickListener(new View.OnClickListener() {
             @Override

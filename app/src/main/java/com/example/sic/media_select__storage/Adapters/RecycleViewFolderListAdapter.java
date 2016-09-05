@@ -18,6 +18,9 @@ import com.example.sic.media_select__storage.R;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class RecycleViewFolderListAdapter extends RecyclerView.Adapter<RecycleViewFolderListAdapter.ViewHolder> {
     static final public String FOLDER_ID = "folderId";
     ArrayList<SelectFolderFragment.Album> list = new ArrayList<>();
@@ -38,7 +41,8 @@ public class RecycleViewFolderListAdapter extends RecyclerView.Adapter<RecycleVi
         holder.folderText.setText(list.get(position).getName());
         Glide.with(fragmentActivity)
                 .load(list.get(position).getCoverUri())
-                .fitCenter()
+                .animate(R.anim.pop_enter)
+                .bitmapTransform(new CropCircleTransformation(fragmentActivity))
                 .into(holder.folderCover);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

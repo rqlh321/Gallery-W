@@ -76,15 +76,12 @@ public class GridViewItemsPreviewAdapter extends BaseAdapter {
         }
         Glide.with(fragmentActivity)
                 .load(listUri.get(i))
+                .animate(R.anim.image_open)
                 .fitCenter()
                 .into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* Intent intent = new Intent(context, ViewActivity.class);
-                intent.putExtra(URI, listUri.get(i));
-                intent.putExtra(IS_VIDEO, isVideoFile);
-                context.startActivity(intent);*/
                 ViewFragment viewFragment = new ViewFragment();
                 FragmentManager fragmentManager = fragmentActivity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

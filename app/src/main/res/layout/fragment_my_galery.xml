@@ -15,6 +15,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gallery_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar"
+        android:gravity="center_horizontal" />
+
     <Button
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
@@ -24,11 +31,4 @@
         android:layout_margin="@dimen/padding_for_item"
         android:text="@string/add_button_text" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gallery_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/add_button"
-        android:layout_below="@id/appbar"
-        android:gravity="right" />
 </RelativeLayout>
