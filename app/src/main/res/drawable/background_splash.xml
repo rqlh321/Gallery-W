@@ -5,7 +5,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/background"
+            android:src="@mipmap/splash_screen"
             android:id="@+id/splashLogo"/>
 
     </item>
