@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.sic.media_select__storage.Fragments.MyGalleryFragment;
-import com.example.sic.media_select__storage.Fragments.SelectFolderFragment;
+import com.example.sic.media_select__storage.fragments.MyGalleryFragment;
+import com.example.sic.media_select__storage.fragments.SelectFolderFragment;
 
 public class MainActivity extends AppCompatActivity {
     public static final int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 2909;
