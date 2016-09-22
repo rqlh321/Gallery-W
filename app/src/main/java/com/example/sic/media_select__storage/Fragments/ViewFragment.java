@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Fragments;
+package com.example.sic.media_select__storage.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +14,8 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.bumptech.glide.Glide;
-import com.example.sic.media_select__storage.Adapters.GridViewItemsPreviewAdapter;
+import com.example.sic.media_select__storage.adapters.GridViewItemsPreviewAdapter;
 import com.example.sic.media_select__storage.R;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by sic on 03.09.2016.

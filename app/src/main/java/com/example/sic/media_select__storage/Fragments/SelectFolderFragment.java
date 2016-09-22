@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Fragments;
+package com.example.sic.media_select__storage.fragments;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.sic.media_select__storage.Adapters.RecycleViewFolderListAdapter;
+import com.example.sic.media_select__storage.adapters.RecycleViewFolderListAdapter;
 import com.example.sic.media_select__storage.R;
 
 import java.util.ArrayList;

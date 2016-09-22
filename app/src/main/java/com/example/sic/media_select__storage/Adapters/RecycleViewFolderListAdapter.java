@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Adapters;
+package com.example.sic.media_select__storage.adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.sic.media_select__storage.Fragments.SelectFileFragment;
-import com.example.sic.media_select__storage.Fragments.SelectFolderFragment;
+import com.example.sic.media_select__storage.fragments.SelectFileFragment;
+import com.example.sic.media_select__storage.fragments.SelectFolderFragment;
 import com.example.sic.media_select__storage.R;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class RecycleViewFolderListAdapter extends RecyclerView.Adapter<RecycleViewFolderListAdapter.ViewHolder> {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gallery</string>
+    <string name="app_name">My Gallery</string>
     <string name="add_button_text">Add photos from Library</string>
     <string name="done_button">Done</string>
     <string name="select_folder">Select Folder</string>

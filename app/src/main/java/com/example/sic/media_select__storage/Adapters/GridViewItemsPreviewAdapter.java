@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Adapters;
+package com.example.sic.media_select__storage.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.Switch;
 
 import com.bumptech.glide.Glide;
 import com.example.sic.media_select__storage.DatabaseHelper;
-import com.example.sic.media_select__storage.Fragments.ViewFragment;
+import com.example.sic.media_select__storage.fragments.ViewFragment;
 import com.example.sic.media_select__storage.R;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Adapters;
+package com.example.sic.media_select__storage.adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,15 +13,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.sic.media_select__storage.DatabaseHelper;
-import com.example.sic.media_select__storage.Fragments.ViewFragment;
+import com.example.sic.media_select__storage.fragments.ViewFragment;
 import com.example.sic.media_select__storage.R;
 
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Random;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class RecycleViewMainListAdapter extends RecyclerView.Adapter<RecycleViewMainListAdapter.ViewHolder> {
     Random random = new Random();

@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Fragments;
+package com.example.sic.media_select__storage.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.sic.media_select__storage.Adapters.RecycleViewMainListAdapter;
+import com.example.sic.media_select__storage.adapters.RecycleViewMainListAdapter;
 import com.example.sic.media_select__storage.DatabaseHelper;
 import com.example.sic.media_select__storage.MainActivity;
 import com.example.sic.media_select__storage.R;

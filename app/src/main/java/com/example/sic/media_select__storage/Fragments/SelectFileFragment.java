@@ -1,4 +1,4 @@
-package com.example.sic.media_select__storage.Fragments;
+package com.example.sic.media_select__storage.fragments;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,8 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.example.sic.media_select__storage.Adapters.GridViewItemsPreviewAdapter;
-import com.example.sic.media_select__storage.Adapters.RecycleViewFolderListAdapter;
+import com.example.sic.media_select__storage.adapters.GridViewItemsPreviewAdapter;
+import com.example.sic.media_select__storage.adapters.RecycleViewFolderListAdapter;
 import com.example.sic.media_select__storage.DatabaseHelper;
 import com.example.sic.media_select__storage.R;
 
